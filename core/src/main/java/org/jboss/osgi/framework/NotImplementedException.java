@@ -5,25 +5,25 @@
  * Copyright (C) 2010 - 2012 JBoss by Red Hat
  * %%
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as 
- * published by the Free Software Foundation, either version 2.1 of the 
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 2.1 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Lesser Public License for more details.
- * 
- * You should have received a copy of the GNU General Lesser Public 
+ *
+ * You should have received a copy of the GNU General Lesser Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/lgpl-2.1.html>.
  * #L%
  */
 /*
  * JBoss, Home of Professional Open Source
- * Copyright 2009, Red Hat Middleware LLC, and individual contributors
- * as indicated by the @author tags. See the copyright.txt file in the
- * distribution for a full listing of individual contributors.
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -40,53 +40,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.osgi.framework.util;
+package org.jboss.osgi.framework;
 
-import java.util.Dictionary;
-import java.util.Map;
-
-import org.osgi.framework.Filter;
-import org.osgi.framework.ServiceReference;
 
 /**
- * Dummy filter implementation
- * 
- * @author <a href="adrian@jboss.com">Adrian Brock</a>
- * @author Thomas.Diesler@jboss.com
+ * Thrown on not implemented R5 features.
  */
-public class NoFilter implements Filter {
+@SuppressWarnings("serial")
+public class NotImplementedException extends RuntimeException {
 
-    /** Singleton instance */
-    public static final Filter INSTANCE = new NoFilter();
-
-    /**
-     * Singleton
-     */
-    private NoFilter() {
-    }
-
-    @Override
-    public boolean match(Dictionary<String, ?> dictionary) {
-        return true;
-    }
-
-    @Override
-    public boolean match(ServiceReference<?> reference) {
-        return true;
-    }
-
-    @Override
-    public boolean matchCase(Dictionary<String, ?> dictionary) {
-        return true;
-    }
-
-    @Override
-    public boolean matches(Map<String, ?> map) {
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return null;
-    }
 }

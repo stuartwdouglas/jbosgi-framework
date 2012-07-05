@@ -15,7 +15,7 @@
       <outputDirectory>bundles</outputDirectory>
       <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
       <includes>
-        <include>org.osgi:org.osgi.compendium:jar</include>
+        <include>org.osgi:org.osgi.enterprise:jar</include>
       </includes>
       <useStrictFiltering>false</useStrictFiltering>
       <scope>compile</scope>

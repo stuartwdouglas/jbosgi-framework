@@ -49,6 +49,7 @@ import static org.jboss.osgi.framework.Constants.PROPERTY_FRAMEWORK_START_TIMEOU
 import static org.jboss.osgi.framework.internal.FrameworkLogger.LOGGER;
 import static org.jboss.osgi.framework.internal.FrameworkMessages.MESSAGES;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -69,6 +70,7 @@ import org.jboss.msc.service.ServiceTarget;
 import org.jboss.msc.service.ServiceController.Mode;
 import org.jboss.osgi.framework.Constants;
 import org.jboss.osgi.framework.FutureServiceValue;
+import org.jboss.osgi.framework.NotImplementedException;
 import org.jboss.osgi.framework.Services;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -529,5 +531,23 @@ final class FrameworkProxy implements Framework {
         boolean isShutdownComplete() {
             return serviceContainer.isShutdownComplete();
         }
+    }
+
+    @Override
+    public File getDataFile(String filename) {
+        // [TODO] R5
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public int compareTo(Bundle o) {
+        // [TODO] R5
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public <A> A adapt(Class<A> type) {
+        // [TODO] R5
+        throw new NotImplementedException();
     }
 }

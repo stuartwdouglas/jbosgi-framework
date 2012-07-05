@@ -45,6 +45,7 @@ package org.jboss.osgi.framework.internal;
 import static org.jboss.osgi.framework.internal.FrameworkLogger.LOGGER;
 import static org.jboss.osgi.framework.internal.FrameworkMessages.MESSAGES;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -68,6 +69,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.jboss.modules.ModuleIdentifier;
 import org.jboss.msc.service.ServiceController.Mode;
 import org.jboss.msc.service.ServiceName;
+import org.jboss.osgi.framework.NotImplementedException;
 import org.jboss.osgi.framework.StorageState;
 import org.jboss.osgi.framework.internal.BundleStoragePlugin.InternalStorageState;
 import org.jboss.osgi.metadata.CaseInsensitiveDictionary;
@@ -270,6 +272,18 @@ abstract class AbstractBundleState implements XBundle {
         return Collections.unmodifiableList(registeredServices);
     }
 
+    @Override
+    public File getDataFile(String filename) {
+        // [TODO] R5
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public int compareTo(Bundle o) {
+        // [TODO] R5
+        throw new NotImplementedException();
+    }
+    
     @Override
     public ServiceReference[] getServicesInUse() {
         assertNotUninstalled();

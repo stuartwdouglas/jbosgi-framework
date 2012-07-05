@@ -45,6 +45,7 @@ package org.jboss.osgi.framework;
 import static org.jboss.osgi.framework.IntegrationServices.MODULE_LOADER_PLUGIN;
 import static org.jboss.osgi.framework.internal.FrameworkMessages.MESSAGES;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -287,6 +288,18 @@ public class AbstractBundleAdaptor implements XBundle {
         return Collections.singletonList(bundlerev);
     }
 
+    @Override
+    public File getDataFile(String filename) {
+        // [TODO] R5
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public int compareTo(Bundle o) {
+        // [TODO] R5
+        throw new NotImplementedException();
+    }
+    
     @Override
     public int hashCode() {
         return (int) getBundleId() * 51;

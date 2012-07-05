@@ -53,7 +53,7 @@
         <version.jboss.osgi.testing>1.0.4</version.jboss.osgi.testing>
         <version.jboss.osgi.vfs>1.1.2.CR1</version.jboss.osgi.vfs>
         <version.mockito>1.8.4</version.mockito>
-        <version.osgi>4.2.0</version.osgi>
+        <version.osgi>5.0.0</version.osgi>
 
         <surefire.profiler.args />
         <surefire.system.args>-ea ${surefire.profiler.args}</surefire.system.args>
@@ -65,6 +65,12 @@
             <dependency>
                 <groupId>biz.aQute</groupId>
                 <artifactId>aQute.bnd</artifactId>
+                <exclusions>
+                <exclusion>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.compendium</artifactId>
+                </exclusion>
+                </exclusions>
                 <version>${version.aqute.bnd}</version>
             </dependency>
             <dependency>
@@ -147,7 +153,7 @@
             </dependency>
             <dependency>
                 <groupId>org.osgi</groupId>
-                <artifactId>org.osgi.compendium</artifactId>
+                <artifactId>org.osgi.enterprise</artifactId>
                 <version>${version.osgi}</version>
             </dependency>
 

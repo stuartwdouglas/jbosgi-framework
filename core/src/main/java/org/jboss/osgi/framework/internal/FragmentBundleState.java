@@ -44,8 +44,11 @@ package org.jboss.osgi.framework.internal;
 
 import static org.jboss.osgi.framework.internal.FrameworkMessages.MESSAGES;
 
+import java.io.File;
+
 import org.jboss.msc.service.ServiceName;
 import org.jboss.osgi.deployment.deployer.Deployment;
+import org.jboss.osgi.framework.NotImplementedException;
 import org.jboss.osgi.framework.StorageState;
 import org.jboss.osgi.metadata.OSGiMetaData;
 import org.osgi.framework.Bundle;

@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -59,6 +60,7 @@ import org.jboss.msc.service.ServiceName;
 import org.jboss.osgi.deployment.deployer.Deployment;
 import org.jboss.osgi.framework.BundleInstallPlugin;
 import org.jboss.osgi.framework.FutureServiceValue;
+import org.jboss.osgi.framework.NotImplementedException;
 import org.jboss.osgi.vfs.AbstractVFS;
 import org.jboss.osgi.vfs.VFSUtils;
 import org.jboss.osgi.vfs.VirtualFile;
@@ -312,15 +314,13 @@ abstract class AbstractBundleContext implements BundleContext {
     }
 
     @Override
-    @SuppressWarnings("rawtypes")
-    public ServiceRegistration registerService(String clazz, Object service, Dictionary properties) {
+    public ServiceRegistration<?> registerService(String clazz, Object service, Dictionary<String, ?> properties) {
         checkValidBundleContext();
         return registerService(new String[] { clazz }, service, properties);
     }
 
     @Override
-    @SuppressWarnings("rawtypes")
-    public ServiceRegistration registerService(String[] classNames, Object service, Dictionary properties) {
+    public ServiceRegistration<?> registerService(String[] classNames, Object service, Dictionary<String, ?> properties) {
         if (classNames == null || classNames.length == 0)
             throw MESSAGES.illegalArgumentNull("classNames");
         if (service == null)
@@ -332,7 +332,31 @@ abstract class AbstractBundleContext implements BundleContext {
     }
 
     @Override
-    public ServiceReference getServiceReference(String className) {
+    public <S> ServiceRegistration<S> registerService(Class<S> clazz, S service, Dictionary<String, ?> properties) {
+        // [TODO] R5
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public <S> ServiceReference<S> getServiceReference(Class<S> clazz) {
+        // [TODO] R5
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public <S> Collection<ServiceReference<S>> getServiceReferences(Class<S> clazz, String filter) throws InvalidSyntaxException {
+        // [TODO] R5
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public Bundle getBundle(String location) {
+        // [TODO] R5
+        throw new NotImplementedException();
+    }
+    
+    @Override
+    public ServiceReference<?> getServiceReference(String className) {
         if (className == null)
             throw MESSAGES.illegalArgumentNull("className");
         checkValidBundleContext();
@@ -342,14 +366,14 @@ abstract class AbstractBundleContext implements BundleContext {
     }
 
     @Override
-    public ServiceReference[] getServiceReferences(String className, String filter) throws InvalidSyntaxException {
+    public ServiceReference<?>[] getServiceReferences(String className, String filter) throws InvalidSyntaxException {
         checkValidBundleContext();
         ServiceManagerPlugin serviceManager = getFrameworkState().getServiceManagerPlugin();
         List<ServiceState> srefs = serviceManager.getServiceReferences(bundleState, className, filter, true);
         if (srefs.isEmpty())
             return null;
 
-        List<ServiceReference> result = new ArrayList<ServiceReference>();
+        List<ServiceReference<?>> result = new ArrayList<ServiceReference<?>>();
         for (ServiceState serviceState : srefs)
             result.add(serviceState.getReference());
 
@@ -357,14 +381,14 @@ abstract class AbstractBundleContext implements BundleContext {
     }
 
     @Override
-    public ServiceReference[] getAllServiceReferences(String className, String filter) throws InvalidSyntaxException {
+    public ServiceReference<?>[] getAllServiceReferences(String className, String filter) throws InvalidSyntaxException {
         checkValidBundleContext();
         ServiceManagerPlugin serviceManager = getFrameworkState().getServiceManagerPlugin();
         List<ServiceState> srefs = serviceManager.getServiceReferences(bundleState, className, filter, false);
         if (srefs.isEmpty())
             return null;
 
-        List<ServiceReference> result = new ArrayList<ServiceReference>();
+        List<ServiceReference<?>> result = new ArrayList<ServiceReference<?>>();
         for (ServiceState serviceState : srefs)
             result.add(serviceState.getReference());
 
@@ -372,18 +396,18 @@ abstract class AbstractBundleContext implements BundleContext {
     }
 
     @Override
-    public Object getService(ServiceReference sref) {
+    public <S> S  getService(ServiceReference<S> sref) {
         if (sref == null)
             throw MESSAGES.illegalArgumentNull("sref");
         checkValidBundleContext();
         ServiceState serviceState = ServiceState.assertServiceState(sref);
         ServiceManagerPlugin serviceManager = getFrameworkState().getServiceManagerPlugin();
-        Object service = serviceManager.getService(bundleState, serviceState);
+        S service = (S) serviceManager.getService(bundleState, serviceState);
         return service;
     }
 
     @Override
-    public boolean ungetService(ServiceReference sref) {
+    public boolean ungetService(ServiceReference<?> sref) {
         if (sref == null)
             throw MESSAGES.illegalArgumentNull("sref");
         checkValidBundleContext();

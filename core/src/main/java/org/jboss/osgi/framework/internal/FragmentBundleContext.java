@@ -42,7 +42,14 @@
  */
 package org.jboss.osgi.framework.internal;
 
+import java.util.Collection;
+import java.util.Dictionary;
+
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
 
 /**
  * A fragment {@link BundleContext}.
