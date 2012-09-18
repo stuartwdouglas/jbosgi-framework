@@ -44,7 +44,7 @@ final class HostBundleInstalledService extends UserBundleInstalledService<HostBu
     static ServiceName addService(ServiceTarget serviceTarget, FrameworkState frameworkState, Deployment dep, ServiceListener<XBundle> listener) throws BundleException {
         ServiceName serviceName = BundleManagerPlugin.getServiceName(dep).append("INSTALLED");
         HostBundleInstalledService service = new HostBundleInstalledService(frameworkState, dep);
-        ServiceBuilder<HostBundleState> builder = serviceTarget.addService(serviceName, service);
+        ServiceBuilder<HostBundleState> builder = serviceTarget.addService(serviceName, EagerListenerService.wrap(service));
         builder.addDependency(InternalServices.FRAMEWORK_CORE_SERVICES);
         if (listener != null) {
             builder.addListener(listener);

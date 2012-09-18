@@ -62,7 +62,7 @@ public final class SystemBundleService extends AbstractBundleService<SystemBundl
 
     static void addService(ServiceTarget serviceTarget, FrameworkState frameworkState) {
         SystemBundleService service = new SystemBundleService(frameworkState);
-        ServiceBuilder<SystemBundleState> builder = serviceTarget.addService(InternalServices.SYSTEM_BUNDLE, service);
+        ServiceBuilder<SystemBundleState> builder = serviceTarget.addService(InternalServices.SYSTEM_BUNDLE, EagerListenerService.wrap(service));
         builder.addDependency(Services.ENVIRONMENT, XEnvironment.class, service.injectedEnvironmentPlugin);
         builder.addDependency(IntegrationService.SYSTEM_PATHS_PLUGIN, SystemPathsPlugin.class, service.injectedSystemPaths);
         builder.addDependency(InternalServices.BUNDLE_STORAGE_PLUGIN, BundleStoragePlugin.class, service.injectedBundleStorage);

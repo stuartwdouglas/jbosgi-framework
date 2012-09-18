@@ -34,13 +34,14 @@ import org.jboss.msc.service.ServiceController.State;
 import org.jboss.msc.service.ServiceController.Transition;
 import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.StartException;
+import org.jboss.osgi.framework.internal.EagerServiceListener;
 
 /**
  *
  * @author Thomas.Diesler@jboss.com
  * @since 19-Apr-2012
  */
-public class ServiceTracker<S> extends AbstractServiceListener<S> {
+public class ServiceTracker<S> extends EagerServiceListener<S> {
 
     private final Set<ServiceName> addedNames = new HashSet<ServiceName>();
     private final Set<ServiceController<? extends S>> trackedController = new HashSet<ServiceController<? extends S>>();
@@ -50,6 +51,7 @@ public class ServiceTracker<S> extends AbstractServiceListener<S> {
     public void listenerAdded(ServiceController<? extends S> controller) {
         synchronized (trackedController) {
             if (trackService(controller)) {
+                addEagerListener(controller);
                 LOGGER.tracef("ServiceTracker controller added: %s", controller);
                 addedNames.add(controller.getName());
                 State state = controller.getState();
@@ -73,11 +75,6 @@ public class ServiceTracker<S> extends AbstractServiceListener<S> {
     public void transition(ServiceController<? extends S> controller, Transition transition) {
         synchronized (trackedController) {
             switch (transition) {
-                case STARTING_to_UP:
-                    LOGGER.tracef("ServiceTracker transition to UP: " + controller.getName());
-                    serviceStarted(controller);
-                    serviceComplete(controller);
-                    break;
                 case STARTING_to_START_FAILED:
                     LOGGER.tracef("ServiceTracker transition to START_FAILED: " + controller.getName());
                     StartException ex = controller.getStartException();
@@ -91,6 +88,7 @@ public class ServiceTracker<S> extends AbstractServiceListener<S> {
     private void serviceComplete(ServiceController<? extends S> controller) {
         trackedController.remove(controller);
         controller.removeListener(this);
+        removeEagerListener(controller);
         checkAndComplete();
     }
 
@@ -120,5 +118,12 @@ public class ServiceTracker<S> extends AbstractServiceListener<S> {
     }
 
     protected void complete() {
+    }
+
+    @Override
+    public void starting(final ServiceController<S> controller) {
+        LOGGER.tracef("ServiceTracker transition to UP: " + controller.getName());
+        serviceStarted(controller);
+        serviceComplete(controller);
     }
 }

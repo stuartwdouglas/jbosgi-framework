@@ -39,7 +39,7 @@ final class HostBundleActiveService extends UserBundleActiveService<HostBundleSt
 
     static void addService(ServiceTarget serviceTarget, FrameworkState frameworkState, ServiceName serviceName) {
         HostBundleActiveService service = new HostBundleActiveService(frameworkState);
-        ServiceBuilder<HostBundleState> builder = serviceTarget.addService(serviceName.append("ACTIVE"), service);
+        ServiceBuilder<HostBundleState> builder = serviceTarget.addService(serviceName.append("ACTIVE"), EagerListenerService.wrap(service));
         builder.addDependency(serviceName.append("INSTALLED"), HostBundleState.class, service.injectedBundleState);
         builder.setInitialMode(Mode.NEVER);
         builder.install();

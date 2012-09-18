@@ -35,6 +35,7 @@ import org.jboss.msc.service.ServiceBuilder;
 import org.jboss.msc.service.ServiceController;
 import org.jboss.msc.service.ServiceListener;
 import org.jboss.msc.service.ServiceName;
+import org.jboss.osgi.framework.internal.EagerListenerService;
 import org.jboss.osgi.framework.util.ServiceTracker;
 import org.junit.Test;
 
@@ -56,7 +57,7 @@ public class ServiceTrackerTestCase extends AbstractServiceTestCase {
                 listenerAdded.set(true);
             }
         };
-        ServiceBuilder<String> builder = serviceTarget.addService(ServiceName.of("serviceA"), new ServiceA());
+        ServiceBuilder<String> builder = serviceTarget.addService(ServiceName.of("serviceA"), EagerListenerService.wrap(new ServiceA()));
         builder.addListener(listener);
         builder.install();
 
@@ -74,7 +75,7 @@ public class ServiceTrackerTestCase extends AbstractServiceTestCase {
                 latch.countDown();
             }
         };
-        ServiceBuilder<String> builder = serviceTarget.addService(ServiceName.of("serviceA"), new ServiceA());
+        ServiceBuilder<String> builder = serviceTarget.addService(ServiceName.of("serviceA"), EagerListenerService.wrap(new ServiceA()));
         builder.addListener(listener);
         builder.install();
 
@@ -112,7 +113,7 @@ public class ServiceTrackerTestCase extends AbstractServiceTestCase {
 
         for (ServiceName serviceName : expected) {
             Thread.sleep(10);
-            ServiceBuilder<String> builder = serviceTarget.addService(serviceName, new TestService());
+            ServiceBuilder<String> builder = serviceTarget.addService(serviceName, EagerListenerService.wrap(new TestService()));
             builder.addListener(listener);
             builder.install();
         }
